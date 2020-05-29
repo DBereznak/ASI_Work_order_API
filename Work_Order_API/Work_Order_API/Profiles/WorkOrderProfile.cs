@@ -14,8 +14,7 @@ namespace Work_Order_API.Profiles
         {
             CreateMap<WorkOrder, WorkOrderReadDto>();
             CreateMap<WorkOrderCreateDto, WorkOrder>();
-            CreateMap<WorkOrderUpdateDto, WorkOrder>();
-            CreateMap<WorkOrder, WorkOrderUpdateDto>();
+            CreateMap<WorkOrderReadDto, WorkOrder>();
         }
     }
 }

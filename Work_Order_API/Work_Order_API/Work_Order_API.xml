@@ -1,0 +1,39 @@
+﻿<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>BookStore-API</name>
+  </assembly>
+  <members>
+    <member name="M:Work_Order_API.Controllers.WorkOrdersController.GetAllWorkOrders()">
+      <summary>
+        Gets All work orders
+      </summary>
+      <returns>A list of Work Orders</returns>
+    </member>
+    <member name="M:Work_Order_API.Controllers.WorkOrdersController.GetWorkOrderByID(System.Int32)">
+      <summary>
+        Get a work order by Id
+      </summary>
+      <param name="id"></param>
+      <returns>A work order</returns>
+    </member>
+    <member name="M:Work_Order_API.Controllers.WorkOrdersController.CreateWorkOrder(Work_Order_API.DTOs.WorkOrderCreateDto)">
+      <summary>
+        Creates a new work order
+      </summary>
+      <returns>created work order</returns>
+    </member>
+    <member name="M:Work_Order_API.Controllers.WorkOrdersController.UpdateWorkOrder(System.Int32, Work_Order_API.DTOs.WorkOrderReadDto)">
+      <summary>
+        Updates a work order
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Work_Order_API.Controllers.WorkOrdersController.DeleteWorkOrder(System.Int32)">
+      <summary>
+        Deletes work order
+      </summary>
+      <returns>created work order</returns>
+    </member>
+  </members>
+</doc>

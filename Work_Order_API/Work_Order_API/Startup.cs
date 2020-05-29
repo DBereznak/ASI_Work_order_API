@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -49,6 +51,10 @@ namespace Work_Order_API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Work Order API", Version = "v1", Description = "API to log & retrieve Work Orders" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var path = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(path);
             });
 
 
@@ -71,6 +77,7 @@ namespace Work_Order_API
 
             app.UseHttpsRedirection();
 
+            app.UseCors("CorsPolicy");
             app.UseRouting();
 
             app.UseAuthorization();

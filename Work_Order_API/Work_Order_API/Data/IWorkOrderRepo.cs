@@ -6,14 +6,8 @@ using Work_Order_API.Models;
 
 namespace Work_Order_API.Data
 {
-    public interface IWorkOrderRepo
+    public interface IWorkOrderRepo : IBaseRepo<WorkOrder>
     {
-        bool SaveChanges();
-        void CreateWorkOrder(WorkOrder wo);
-        void DeleteWorkOrder(WorkOrder wo);
-        void UpdateWorkOrder(WorkOrder wo);
-        IEnumerable<WorkOrder> GetAllWorkOrders();
-        WorkOrder GetWorkOrderByID(int id);
 
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Work_Order_API.Data;
 using Work_Order_API.DTOs;
@@ -24,33 +25,67 @@ namespace Work_Order_API.Controllers
             _mapper = mapper;
         }
         // GET: api/workorder>
+        /// <summary>
+        /// Gets All work orders
+        /// </summary>
+        /// <returns>A list of Work Orders</returns>
         [HttpGet]
-        public ActionResult<IEnumerable<WorkOrderReadDto>> GetAllWorkOrders()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAllWorkOrders()
         {
-            var workOrders = _repo.GetAllWorkOrders();
-            return Ok(_mapper.Map<IEnumerable<WorkOrderReadDto>>(workOrders));
+            var workOrders =  await _repo.GetAllWorkOrders();
+            var response = _mapper.Map<IEnumerable<WorkOrderReadDto>>(workOrders);
+            return Ok(response);
         }
 
         // GET api/workorder/5
+        /// <summary>
+        /// Get a work order by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name="GetWorkOrderByID")]
-        public ActionResult <WorkOrderReadDto> GetWorkOrderByID(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetWorkOrderByID(int id)
         {
-            var workOrder = _repo.GetWorkOrderByID(id);
+            var workOrder = await _repo.GetWorkOrderByID(id);
             if(workOrder != null)
             {
-                return Ok(_mapper.Map<WorkOrderReadDto>(workOrder));
+                var response = _mapper.Map<WorkOrderReadDto>(workOrder);
+                return Ok(response);
             }
 
             return NotFound();
         }
 
         // POST api/workorder
+        /// <summary>
+        /// Creates a new work order
+        /// </summary>
+        /// <param name="workOrderCreateDto"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult <WorkOrderReadDto> CreateWorkOrder(WorkOrderCreateDto workOrderCreateDto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateWorkOrder([FromBody] WorkOrderCreateDto workOrderCreateDto)
         {
+            if(workOrderCreateDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var workOrderModel = _mapper.Map<WorkOrder>(workOrderCreateDto);
-            _repo.CreateWorkOrder(workOrderModel);
-            _repo.SaveChanges();
+            await _repo.CreateWorkOrder(workOrderModel);
+
+            await _repo.SaveChanges();
 
             var workOrderReadDto = _mapper.Map<WorkOrderReadDto>(workOrderModel);
 
@@ -58,37 +93,78 @@ namespace Work_Order_API.Controllers
         }
 
         // PUT api/workorder/5
+        /// <summary>
+        /// Updates a book by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="workOrderUpdate"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public ActionResult UpdateWorkOrder(int id, WorkOrderUpdateDto workOrderUpdate)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateWorkOrder(int id, WorkOrderReadDto workOrderUpdate)
         {
-            var model = _repo.GetWorkOrderByID(id);
-            if(model == null)
+            var workorder = _mapper.Map<WorkOrder>(workOrderUpdate);
+            if (id < 1 || workOrderUpdate == null || id != workOrderUpdate.Id)
+            {
+                return BadRequest();
+            }
+            if(workorder == null)
             {
                 return NotFound();
             }
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            _mapper.Map(workOrderUpdate, model);
-            _repo.UpdateWorkOrder(model);
-            _repo.SaveChanges();
 
+            var success = await _repo.UpdateWorkOrder(workorder);
+
+            if (!success)
+            {
+                return StatusCode(500, "Something went wrong");
+            }
             return NoContent();
         }
-
+        /// <summary>
+        /// Deletes a work order
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE api/workorder/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteWorkOrder(int id)
+        public async Task<IActionResult> DeleteWorkOrder(int id)
         {
-            var model = _repo.GetWorkOrderByID(id);
+            var workorder = await _repo.GetWorkOrderByID(id);
 
-            if(model == null)
+            try
             {
-                return NotFound();
+                if (id < 1)
+                {
+                    return BadRequest();
+                }
+                if (workorder == null)
+                {
+                    return NotFound();
+                }
+
+                var success = await _repo.DeleteWorkOrder(workorder);
+                if (!success)
+                {
+                    return StatusCode(500, "Something went wrong");
+                }
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
             }
 
-            _repo.DeleteWorkOrder(model);
-            _repo.SaveChanges();
-
-            return NoContent();
         }
     }
 }

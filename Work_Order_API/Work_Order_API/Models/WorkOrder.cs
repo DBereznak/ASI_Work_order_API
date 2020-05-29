@@ -22,4 +22,5 @@ namespace Work_Order_API.Models
         [MaxLength(7)]
         public string RegistrationNumber { get; set; }
     }
+
 }

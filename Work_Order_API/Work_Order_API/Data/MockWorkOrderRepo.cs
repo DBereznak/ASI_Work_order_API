@@ -47,5 +47,35 @@ namespace Work_Order_API.Data
         {
             throw new NotImplementedException();
         }
+
+        Task<bool> IBaseRepo<WorkOrder>.CreateWorkOrder(WorkOrder entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IBaseRepo<WorkOrder>.DeleteWorkOrder(WorkOrder entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IList<WorkOrder>> IBaseRepo<WorkOrder>.GetAllWorkOrders()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<WorkOrder> IBaseRepo<WorkOrder>.GetWorkOrderByID(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IBaseRepo<WorkOrder>.SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IBaseRepo<WorkOrder>.UpdateWorkOrder(WorkOrder entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
