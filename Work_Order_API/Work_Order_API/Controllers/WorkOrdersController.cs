@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Work_Order_API.Data;
 using Work_Order_API.DTOs;
 using Work_Order_API.Models;
@@ -18,11 +19,13 @@ namespace Work_Order_API.Controllers
     public class WorkOrdersController : ControllerBase
     {
         private readonly IWorkOrderRepo _repo;
+        private readonly WorkOrderContext _db;
         private readonly IMapper _mapper;
-        public WorkOrdersController(IWorkOrderRepo repo, IMapper mapper)
+        public WorkOrdersController(IWorkOrderRepo repo, IMapper mapper, WorkOrderContext db)
         {
             _repo = repo;
             _mapper = mapper;
+            _db = db;
         }
         // GET: api/workorder>
         /// <summary>
@@ -60,6 +63,8 @@ namespace Work_Order_API.Controllers
             return NotFound();
         }
 
+
+
         // POST api/workorder
         /// <summary>
         /// Creates a new work order
@@ -80,6 +85,12 @@ namespace Work_Order_API.Controllers
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            var doesExist = await _db.WorkOrders.AnyAsync(q => q.WorkOrderNumber == workOrderCreateDto.WorkOrderNumber);
+
+            if (doesExist)
+            {
+                return BadRequest("That work order exists");
             }
 
             var workOrderModel = _mapper.Map<WorkOrder>(workOrderCreateDto);
