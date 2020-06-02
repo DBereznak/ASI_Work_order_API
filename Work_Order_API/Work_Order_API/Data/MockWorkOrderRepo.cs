@@ -38,6 +38,11 @@ namespace Work_Order_API.Data
             return new WorkOrder { Id = 3, WorkOrderNumber = "6691", DateOpen = new DateTime(2020, 5, 1), Customer = "Isaac Lang", RegistrationNumber = "N5432" };
         }
 
+        public Task<WorkOrder> GetWorkOrderByWorkOrderNumber(string wo)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool SaveChanges()
         {
             throw new NotImplementedException();

@@ -14,7 +14,12 @@
       <summary>
         Get a work order by Id
       </summary>
-      <param name="id"></param>
+      <returns>A work order</returns>
+    </member>
+    <member name="M:Work_Order_API.Controllers.WorkOrdersController.GetWorkOrderByWorkOrderNumber(System.String)">
+      <summary>
+        Get a work order by Work Order Number
+      </summary>
       <returns>A work order</returns>
     </member>
     <member name="M:Work_Order_API.Controllers.WorkOrdersController.CreateWorkOrder(Work_Order_API.DTOs.WorkOrderCreateDto)">

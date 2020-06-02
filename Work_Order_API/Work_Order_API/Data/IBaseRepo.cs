@@ -13,6 +13,7 @@ namespace Work_Order_API.Data
         Task<bool> UpdateWorkOrder(T entity);
         Task<IList<T>> GetAllWorkOrders();
         Task<T> GetWorkOrderByID(int id);
+        Task<T> GetWorkOrderByWorkOrderNumber(string WorkOrderNumber);
 
     }
 }

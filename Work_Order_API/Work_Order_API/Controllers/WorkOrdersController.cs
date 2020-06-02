@@ -63,6 +63,28 @@ namespace Work_Order_API.Controllers
             return NotFound();
         }
 
+        // GET api/workorder/5
+        /// <summary>
+        /// Get a work order by work order number
+        /// </summary>
+        /// <param name="wo"></param>
+        /// <returns>A work order</returns>
+        [HttpGet("workordernumber/{wo}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetWorkOrderByWorkOrderNumber(string wo)
+        {
+
+            var workOrder = await _repo.GetWorkOrderByWorkOrderNumber(wo);
+            if (workOrder != null)
+            {
+                var response = _mapper.Map<WorkOrderReadDto>(workOrder);
+                return Ok(response);
+            }
+
+            return NotFound();
+        }
+
 
 
         // POST api/workorder

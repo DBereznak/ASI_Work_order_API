@@ -65,6 +65,12 @@ namespace Work_Order_API.Data
             return changes > 0;
         }
 
+        public async Task<WorkOrder> GetWorkOrderByWorkOrderNumber(string WorkOrderNumber)
+        {
+            //This is the way to query non primary key items
+            var workOrder = await _context.WorkOrders.Where(x => x.WorkOrderNumber == WorkOrderNumber).FirstOrDefaultAsync();
 
+            return workOrder;
+        }
     }
 }
