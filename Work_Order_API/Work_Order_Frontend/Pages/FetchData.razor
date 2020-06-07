@@ -1,0 +1,57 @@
+@page "/fetchworkorders"
+@inject HttpClient Http
+
+<h1>All Work Orders</h1>
+
+@if (workorders == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Database Id</th>
+                <th>Work Order Number</th>
+                <th>Date Opened</th>
+                <th>Date Closed</th>
+                <th>Customer</th>
+                <th>Registration Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var workorder in workorders)
+            {
+            <tr>
+                <td>@workorder.Id</td>
+                <td>@workorder.WorkOrderNumber</td>
+                <td>@workorder.DateOpen</td>
+                <td>@if (@workorder.DateClosed != null)
+                {@workorder.DateClosed}</td>
+                <td>@workorder.Customer</td>
+                <td>@workorder.RegistrationNumber</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private WorkOrder[] workorders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        workorders = await Http.GetFromJsonAsync<WorkOrder[]>("https://localhost:5001/api/workorder");
+    }
+
+    public class WorkOrder
+    {
+        public int Id { get; set; }
+        public string WorkOrderNumber { get; set; }
+        public DateTime DateOpen { get; set; }
+        public DateTime DateClosed { get; set; }
+        public string Customer { get; set; }
+        public string RegistrationNumber { get; set; }
+    }
+}

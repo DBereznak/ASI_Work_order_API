@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Work_Order_API", "Work_Order_API\Work_Order_API.csproj", "{3BAB4194-B73D-4448-ADB5-3C415B4849EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Work_Order_API", "Work_Order_API\Work_Order_API.csproj", "{3BAB4194-B73D-4448-ADB5-3C415B4849EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Work_Order_Frontend", "Work_Order_Frontend\Work_Order_Frontend.csproj", "{AFA6B80D-F10A-4C6F-BBA5-AB78BAD8C665}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3BAB4194-B73D-4448-ADB5-3C415B4849EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BAB4194-B73D-4448-ADB5-3C415B4849EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BAB4194-B73D-4448-ADB5-3C415B4849EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFA6B80D-F10A-4C6F-BBA5-AB78BAD8C665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFA6B80D-F10A-4C6F-BBA5-AB78BAD8C665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFA6B80D-F10A-4C6F-BBA5-AB78BAD8C665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFA6B80D-F10A-4C6F-BBA5-AB78BAD8C665}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
