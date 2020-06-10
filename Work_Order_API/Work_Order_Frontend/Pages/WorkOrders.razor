@@ -1,4 +1,4 @@
-@page "/fetchworkorders"
+@page "/workorders"
 @inject HttpClient Http
 
 <h1>All Work Orders</h1>
@@ -27,8 +27,7 @@ else
                 <td>@workorder.Id</td>
                 <td>@workorder.WorkOrderNumber</td>
                 <td>@workorder.DateOpen</td>
-                <td>@if (@workorder.DateClosed != null)
-                {@workorder.DateClosed}</td>
+                <td>@if (@workorder.DateClosed != null) {@workorder.DateClosed}</td>
                 <td>@workorder.Customer</td>
                 <td>@workorder.RegistrationNumber</td>
             </tr>

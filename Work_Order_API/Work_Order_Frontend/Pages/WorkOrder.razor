@@ -1,0 +1,96 @@
+﻿@page "/workorder"
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations;
+
+
+
+<h3>Find Work Order by ID</h3>
+
+
+
+<EditForm Model="@Model" OnValidSubmit="getWO">
+    <DataAnnotationsValidator />
+    <InputText id="id" @bind-Value=@Model.Id />
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@if (id == null)
+{
+    <p>Type a id to get a workorder</p>
+
+}
+else if (showError)
+{
+    <p style="color: red">That is not a valid Id</p>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>Database Id</th>
+            <th>Work Order Number</th>
+            <th>Date Opened</th>
+            <th>Date Closed</th>
+            <th>Customer</th>
+            <th>Registration Number</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>@workorder.Id</td>
+                <td>@workorder.WorkOrderNumber</td>
+                <td>@workorder.DateOpen</td>
+                <td>
+                    @if (workorder.DateClosed != null)
+                    {@workorder.DateClosed}
+                </td>
+                <td>@workorder.Customer</td>
+                <td>@workorder.RegistrationNumber</td>
+            </tr>
+        </tbody>
+</table>
+}
+
+
+@code {
+    private GetByIdModel Model = new GetByIdModel();
+    private string id;
+    private int trash;
+    private bool showError = false;
+    private WO workorder = new WO();
+
+    private async Task getWO()
+    {
+        id = Model.Id;
+        bool isIdANumber = Int32.TryParse(id,out trash);
+
+        if (id.Length >= 1 && isIdANumber)
+        {
+            showError = false;
+            workorder = await Http.GetFromJsonAsync<WO>("https://localhost:5001/api/workorder/" + id);
+        }
+        else {
+            showError = true;
+        }
+    }
+
+
+    public class GetByIdModel
+    {
+        [Required]
+        public string Id { get; set; }
+    }
+
+    public class WO
+    {
+        public int Id { get; set; }
+        public string WorkOrderNumber { get; set; }
+        public DateTime DateOpen { get; set; }
+        public DateTime DateClosed { get; set; }
+        public string Customer { get; set; }
+        public string RegistrationNumber { get; set; }
+    }
+}
+
